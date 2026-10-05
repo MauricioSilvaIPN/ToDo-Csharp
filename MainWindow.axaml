@@ -7,5 +7,5 @@
         Title="ToDo_csharp">
     
 
-        <TextBlock Text="Testando Rapidex" FontSize="20" FontWeight="Bold"></TextBlock>
+        <Button>"New List"</Button>
 </Window>
