@@ -7,5 +7,9 @@
         Title="ToDo_csharp">
     
 
-        <Button>"New List"</Button>
+        <UserControl Padding="20">
+                <Button Click="CreatingNewList">
+                        "New List"
+                </Button>
+        </UserControl>
 </Window>
