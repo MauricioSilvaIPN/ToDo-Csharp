@@ -7,9 +7,23 @@
         Title="ToDo_csharp">
     
 
-        <UserControl Padding="20">
-                <Button Click="CreatingNewList">
-                        "New List"
-                </Button>
-        </UserControl>
+        <StackPanel>
+                <UserControl Padding="20" HorizontalAlignment="Center">
+                        <Button Click="CreatingNewList">
+                                New List
+                        </Button>
+                </UserControl>
+
+                <Grid x:Name="Listas" ColumnDefinitions="Auto, *, Auto">
+                        <Button Grid.Column="0" Margin="0,0,10,0" Background="Transparent">
+                                <Image Source="avares://ToDo-csharp/images/checkbox.png" Width="20" Height="20" />
+                        </Button>
+                        
+                        <TextBox PlaceholderText="Digite sua tarefa aqui" Grid.Column="1" Width="450"></TextBox>
+                        
+                        <Button Grid.Column="2" Margin="10,0,0,0">
+                                Delete
+                        </Button>
+                </Grid>
+        </StackPanel>
 </Window>

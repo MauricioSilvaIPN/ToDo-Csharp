@@ -11,11 +11,18 @@ public partial class MainWindow : Window
         InitializeComponent();
     }
 
-
+#region CREATING BUTTONS
     public void CreatingNewList(object sender, RoutedEventArgs args)
     {
         
     }
+
+    public void TaskCompleted(object sender, RoutedEventArgs args)
+    {
+        
+    }
+
+#endregion
 
     private void Button_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
