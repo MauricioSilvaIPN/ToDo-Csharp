@@ -2,6 +2,7 @@ using System;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Media;
+using Microsoft.VisualBasic;
 
 namespace ToDo_csharp;
 
@@ -28,6 +29,12 @@ public partial class MainWindow : Window
             Data = StreamGeometry.Parse("M17 6V4c0-1.1-.9-2-2-2H9c-1.1 0-2 .9-2 2v2H2v2h2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8h2V6zM9 4h6v2H9zM6 20V8h12v12z")
         };
 
+        var newPanel = new StackPanel
+        {
+            Orientation = Avalonia.Layout.Orientation.Horizontal,
+            HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center,
+            Margin = new Avalonia.Thickness(0, 15, 0, 0)
+        };
 
         var checkBtn = new Button
         {
@@ -49,15 +56,15 @@ public partial class MainWindow : Window
             Content = trashIcon
         };
 
-        int rowIncrement = rowIndex++;
+        Console.WriteLine(rowIndex);
+        Grid.SetRow(newPanel, rowIndex);
+        rowIndex++;
 
-        Console.WriteLine(rowIncrement);
-        Grid.SetRow(ContainerListas, rowIncrement);
+        ContainerListas.Children.Add(newPanel);
 
-
-        ContainerListas.Children.Add(checkBtn);
-        ContainerListas.Children.Add(textInput);
-        ContainerListas.Children.Add(trashBtn);
+        newPanel.Children.Add(checkBtn);
+        newPanel.Children.Add(textInput);
+        newPanel.Children.Add(trashBtn);
     }
 
     public void TaskCompleted(object sender, RoutedEventArgs args)
