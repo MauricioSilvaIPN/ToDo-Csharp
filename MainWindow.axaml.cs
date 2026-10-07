@@ -7,6 +7,9 @@ namespace ToDo_csharp;
 
 public partial class MainWindow : Window
 {
+
+    private int rowIndex = 1;
+
     public MainWindow()
     {
         InitializeComponent();
@@ -46,15 +49,11 @@ public partial class MainWindow : Window
             Content = trashIcon
         };
 
+        int rowIncrement = rowIndex++;
 
-        Grid.SetColumn(checkBtn, 0);
-        Grid.SetColumn(textInput, 1);
-        Grid.SetColumn(trashBtn, 2);
+        Console.WriteLine(rowIncrement);
+        Grid.SetRow(ContainerListas, rowIncrement);
 
-        Grid.SetRow(checkBtn, 0);
-        Grid.SetRow(textInput, 0);
-        Grid.SetRow(trashBtn, 0);
-        
 
         ContainerListas.Children.Add(checkBtn);
         ContainerListas.Children.Add(textInput);
