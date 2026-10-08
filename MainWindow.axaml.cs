@@ -83,7 +83,15 @@ public partial class MainWindow : Window
         {
             if (check.Content is PathIcon icon)
             {
-                icon.Data = checkVerifyIcon;   
+                if (icon.Data == checkIcon)
+                {
+                    icon.Data = checkVerifyIcon;       
+                }
+
+                else
+                {
+                    icon.Data = checkIcon;
+                }
             }
         }
     }
