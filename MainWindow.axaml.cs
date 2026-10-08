@@ -56,7 +56,9 @@ public partial class MainWindow : Window
             Content = trashIcon
         };
 
-        Console.WriteLine(rowIndex);
+        ContainerListas.RowDefinitions.Add(new RowDefinition(GridLength.Auto));
+
+
         Grid.SetRow(newPanel, rowIndex);
         rowIndex++;
 
