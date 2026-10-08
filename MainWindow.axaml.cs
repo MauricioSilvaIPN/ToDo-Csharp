@@ -56,8 +56,10 @@ public partial class MainWindow : Window
             Content = trashIcon
         };
 
-        ContainerListas.RowDefinitions.Add(new RowDefinition(GridLength.Auto));
+        checkBtn.Click += TaskCompleted;
 
+
+        ContainerListas.RowDefinitions.Add(new RowDefinition(GridLength.Auto));
 
         Grid.SetRow(newPanel, rowIndex);
         rowIndex++;
@@ -69,9 +71,9 @@ public partial class MainWindow : Window
         newPanel.Children.Add(trashBtn);
     }
 
-    public void TaskCompleted(object sender, RoutedEventArgs args)
+    public void TaskCompleted(object? sender, RoutedEventArgs args)
     {
-        
+        Console.WriteLine("Estou funcionando...");
     }
 
 #endregion
