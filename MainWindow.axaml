@@ -15,14 +15,14 @@
                 </UserControl>
 
                 <Grid x:Name="ContainerListas" RowDefinitions="Auto, *">
-                        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <StackPanel x:Name="Listas" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
                                 <Button Click="TaskCompleted" Margin="125,0,10,0" Background="Transparent">
                                         <PathIcon Data="M17 5H7c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2M7 17V7h10v10z"></PathIcon>
                                 </Button>
                                 
                                 <TextBox PlaceholderText="Digite sua tarefa aqui..." Width="450"></TextBox>
                                 
-                                <Button Margin="10,0,125,0" Background="Transparent">
+                                <Button Click="DeleteTask" Margin="10,0,125,0" Background="Transparent">
                                         <PathIcon Data="M17 6V4c0-1.1-.9-2-2-2H9c-1.1 0-2 .9-2 2v2H2v2h2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8h2V6zM9 4h6v2H9zM6 20V8h12v12z"></PathIcon>
                                 </Button>
                         </StackPanel>

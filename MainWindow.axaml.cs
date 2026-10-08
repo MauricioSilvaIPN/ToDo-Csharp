@@ -38,7 +38,8 @@ public partial class MainWindow : Window
         {
             Orientation = Avalonia.Layout.Orientation.Horizontal,
             HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center,
-            Margin = new Avalonia.Thickness(0, 15, 0, 0)
+            Margin = new Avalonia.Thickness(0, 15, 0, 0),
+            Name = "Listas"
         };
 
         var checkBtn = new Button
@@ -62,6 +63,7 @@ public partial class MainWindow : Window
         };
 
         checkBtn.Click += TaskCompleted;
+        trashBtn.Click += DeleteTask;
 
 
         ContainerListas.RowDefinitions.Add(new RowDefinition(GridLength.Auto));
@@ -92,6 +94,14 @@ public partial class MainWindow : Window
                     icon.Data = checkIcon;
                 }
             }
+        }
+    }
+
+    public void DeleteTask(object? sender, RoutedEventArgs args)
+    {
+        if (sender is Button btn)
+        {
+            ContainerListas.Children.Remove(Listas);
         }
     }
 
