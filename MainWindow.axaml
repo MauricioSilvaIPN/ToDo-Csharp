@@ -17,7 +17,7 @@
                 <Grid x:Name="ContainerListas" RowDefinitions="Auto, *">
                         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
                                 <Button Click="TaskCompleted" Margin="125,0,10,0" Background="Transparent">
-                                        <PathIcon Data="M17 5H7c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2M7 17V7h10v10z"></PathIcon>
+                                        <PathIcon x:Name="CheckBI" Data="M17 5H7c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2M7 17V7h10v10z"></PathIcon>
                                 </Button>
                                 
                                 <TextBox PlaceholderText="Digite sua tarefa aqui..." Width="450"></TextBox>

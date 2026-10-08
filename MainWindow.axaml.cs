@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Media;
@@ -10,6 +11,10 @@ public partial class MainWindow : Window
 {
 
     private int rowIndex = 1;
+    
+    private StreamGeometry checkIcon = StreamGeometry.Parse("M17 5H7c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2M7 17V7h10v10z");
+    private StreamGeometry trashIcon = StreamGeometry.Parse("M17 6V4c0-1.1-.9-2-2-2H9c-1.1 0-2 .9-2 2v2H2v2h2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8h2V6zM9 4h6v2H9zM6 20V8h12v12z");
+    private StreamGeometry checkVerifyIcon = StreamGeometry.Parse("m11 12.59-1.29-1.3-1.42 1.42 2.71 2.7 4.71-4.7-1.42-1.42z");
 
     public MainWindow()
     {
@@ -19,14 +24,15 @@ public partial class MainWindow : Window
 #region CREATING BUTTONS
     public void CreatingNewList(object sender, RoutedEventArgs args)
     {    
-        var checkIcon = new PathIcon
+        var checkI = new PathIcon
         {
-            Data = StreamGeometry.Parse("M17 5H7c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2M7 17V7h10v10z")
+            Name = "CheckBI",
+            Data = checkIcon
         };
 
-        var trashIcon = new PathIcon
+        var trashI = new PathIcon
         {
-            Data = StreamGeometry.Parse("M17 6V4c0-1.1-.9-2-2-2H9c-1.1 0-2 .9-2 2v2H2v2h2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8h2V6zM9 4h6v2H9zM6 20V8h12v12z")
+            Data = trashIcon
         };
 
         var newPanel = new StackPanel
@@ -40,7 +46,7 @@ public partial class MainWindow : Window
         {
             Margin = new Avalonia.Thickness(125, 0, 10, 0),
             Background = Brushes.Transparent,
-            Content = checkIcon
+            Content = checkI
         };
 
         var textInput = new TextBox
@@ -53,7 +59,7 @@ public partial class MainWindow : Window
         {
             Margin = new Avalonia.Thickness(10, 0, 125, 0),
             Background = Brushes.Transparent,
-            Content = trashIcon
+            Content = trashI
         };
 
         checkBtn.Click += TaskCompleted;
@@ -73,7 +79,13 @@ public partial class MainWindow : Window
 
     public void TaskCompleted(object? sender, RoutedEventArgs args)
     {
-        Console.WriteLine("Estou funcionando...");
+        if (sender is Button check)
+        {
+            if (check.Content is PathIcon icon)
+            {
+                icon.Data = checkVerifyIcon;   
+            }
+        }
     }
 
 #endregion
