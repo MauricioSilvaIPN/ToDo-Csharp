@@ -1,9 +1,6 @@
-using System;
-using System.IO;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Media;
-using Microsoft.VisualBasic;
 
 namespace ToDo_csharp;
 
@@ -104,10 +101,5 @@ public partial class MainWindow : Window
             ContainerListas.Children.Remove(Listas);
         }
     }
-
 #endregion
-
-    private void Button_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
-    {
-    }
 }
