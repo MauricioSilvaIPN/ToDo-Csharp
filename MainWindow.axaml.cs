@@ -1,3 +1,4 @@
+using System;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Media;
@@ -98,7 +99,13 @@ public partial class MainWindow : Window
     {
         if (sender is Button btn)
         {
-            ContainerListas.Children.Remove(Listas);
+            var parentRef = btn.Parent;
+
+            if (parentRef is StackPanel panelRef)
+            {
+                ContainerListas.Children.Remove(panelRef);
+            }
+            
         }
     }
 #endregion
