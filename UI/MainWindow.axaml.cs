@@ -1,13 +1,17 @@
 using System;
 using Avalonia.Controls;
+using Infraestructure.SaveJson;
 using Avalonia.Interactivity;
 using Avalonia.Media;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ToDo_csharp;
 
 public partial class MainWindow : Window
 {
 
+    private CancellationTokenSource? _cts;
     private int rowIndex = 1;
     
     private StreamGeometry checkIcon = StreamGeometry.Parse("M17 5H7c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2M7 17V7h10v10z");
@@ -17,6 +21,7 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+        ShowData();
     }
 
 #region CREATING BUTTONS
@@ -50,7 +55,8 @@ public partial class MainWindow : Window
         var textInput = new TextBox
         {
             PlaceholderText="Digite sua tarefa aqui...",
-            Width = 450
+            Width = 450,
+            Name = "TextoLista"
         };
 
         var trashBtn = new Button
@@ -62,6 +68,8 @@ public partial class MainWindow : Window
 
         checkBtn.Click += TaskCompleted;
         trashBtn.Click += DeleteTask;
+
+        textInput.TextChanged += OnTextTyped;
 
 
         ContainerListas.RowDefinitions.Add(new RowDefinition(GridLength.Auto));
@@ -75,7 +83,9 @@ public partial class MainWindow : Window
         newPanel.Children.Add(textInput);
         newPanel.Children.Add(trashBtn);
     }
+#endregion
 
+#region BUTTONS ACTION
     public void TaskCompleted(object? sender, RoutedEventArgs args)
     {
         if (sender is Button check)
@@ -107,6 +117,37 @@ public partial class MainWindow : Window
             }
             
         }
+    }
+#endregion
+
+#region SAVE&LOAD
+    public void OnTextTyped(object? sender, TextChangedEventArgs e)
+    {
+        _cts?.Cancel();
+        _cts = new CancellationTokenSource();
+        var token = _cts.Token;
+
+        Task.Delay(500, token).ContinueWith(t =>
+        {
+           if (t.IsCanceled) return;
+
+           Avalonia.Threading.Dispatcher.UIThread.Post(() =>
+           {
+              var dataJson = new InfraSaves();
+
+               if (TextoLista.Text != null)
+               {
+                    dataJson.SaveData(TextoLista.Text);   
+               }
+           });
+        }, token);
+    }
+
+    public void ShowData()
+    {
+        var dataJson = new InfraSaves();
+
+        dataJson.LoadData(TextoLista);
     }
 #endregion
 }
