@@ -13,6 +13,7 @@ public partial class MainWindow : Window
 
     private CancellationTokenSource? _cts;
     private int rowIndex = 1;
+    private int panelIndex = 0;
     
     private StreamGeometry checkIcon = StreamGeometry.Parse("M17 5H7c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2M7 17V7h10v10z");
     private StreamGeometry trashIcon = StreamGeometry.Parse("M17 6V4c0-1.1-.9-2-2-2H9c-1.1 0-2 .9-2 2v2H2v2h2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8h2V6zM9 4h6v2H9zM6 20V8h12v12z");
@@ -21,12 +22,14 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
-        ShowData();
+        //ShowData();
     }
 
 #region CREATING BUTTONS
     public void CreatingNewList(object sender, RoutedEventArgs args)
     {    
+        panelIndex++;
+
         var checkI = new PathIcon
         {
             Data = checkIcon
@@ -42,7 +45,8 @@ public partial class MainWindow : Window
             Orientation = Avalonia.Layout.Orientation.Horizontal,
             HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center,
             Margin = new Avalonia.Thickness(0, 15, 0, 0),
-            Name = "Listas"
+            Name = "Listas",
+            Tag = panelIndex
         };
 
         var checkBtn = new Button
@@ -123,24 +127,27 @@ public partial class MainWindow : Window
 #region SAVE&LOAD
     public void OnTextTyped(object? sender, TextChangedEventArgs e)
     {
-        _cts?.Cancel();
-        _cts = new CancellationTokenSource();
-        var token = _cts.Token;
-
-        Task.Delay(500, token).ContinueWith(t =>
+        if (sender is TextBox txtBox)
         {
-           if (t.IsCanceled) return;
+            _cts?.Cancel();
+            _cts = new CancellationTokenSource();
+            var token = _cts.Token;
 
-           Avalonia.Threading.Dispatcher.UIThread.Post(() =>
-           {
-              var dataJson = new InfraSaves();
+            Task.Delay(500, token).ContinueWith(t =>
+            {
+            if (t.IsCanceled) return;
 
-               if (TextoLista.Text != null)
-               {
-                    dataJson.SaveData(TextoLista.Text);   
-               }
-           });
-        }, token);
+            Avalonia.Threading.Dispatcher.UIThread.Post(() =>
+            {
+                var dataJson = new InfraSaves();
+
+                if (txtBox.Text != null)
+                {
+                        dataJson.AddNewText(panelIndex, txtBox.Text);
+                }
+            });
+            }, token);
+        }
     }
 
     public void ShowData()

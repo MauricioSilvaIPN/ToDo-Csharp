@@ -3,6 +3,8 @@ using System.IO;
 using System.Text;
 using System.Text.Json;
 using Avalonia.Controls;
+using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Infraestructure.SaveJson;
 
@@ -14,16 +16,40 @@ public class ListContent
 
 public class InfraSaves
 {
+    private Dictionary<int, string>? textDict;
     string savePath = "SaveFile.json";
 
-    public void SaveData(string inputList)
-    {
-        var listContent = new ListContent()
-        {
-            ListString = inputList
-        };
 
-        string jsonString = JsonSerializer.Serialize(listContent);
+    public void AddNewText(int index, string listText)
+    {
+        if (textDict == null)
+        {
+            textDict = new Dictionary<int, string>();
+        }
+
+        if (File.Exists(savePath))
+        { 
+            var fileContent = File.ReadAllText(savePath);
+            var value = JsonSerializer.Deserialize<Dictionary<int, string>>(fileContent);
+            
+            textDict = value;
+
+            if (textDict.ContainsKey(index))
+            {
+                textDict[index] = listText;    
+            }
+            else
+            {
+                textDict.Add(index, listText);
+            }   
+        }
+
+        SaveData();   
+    }
+
+    public void SaveData()
+    {
+        string jsonString = JsonSerializer.Serialize(textDict);
 
         File.WriteAllText(savePath, jsonString, Encoding.UTF8);
         Console.WriteLine(File.ReadAllText(savePath, Encoding.UTF8));
