@@ -22,7 +22,7 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
-        //ShowData();
+        ShowData();
     }
 
 #region CREATING BUTTONS
@@ -140,10 +140,29 @@ public partial class MainWindow : Window
             Avalonia.Threading.Dispatcher.UIThread.Post(() =>
             {
                 var dataJson = new InfraSaves();
+                var stackParent = txtBox.Parent;
 
-                if (txtBox.Text != null)
+                if (stackParent is StackPanel myPanel)
                 {
-                        dataJson.AddNewText(panelIndex, txtBox.Text);
+                    var newListCard = new listCard
+                    {
+                        listText = txtBox.Text,
+                        listName = myPanel.Name,
+                        //checkIcon = stackParent.;
+                        //trashIcon;
+                        //checkVerifyIcoN;
+                        listOrientation = myPanel.Orientation,
+                        listMargin = myPanel.Margin,
+                        rowIndex = rowIndex,
+                        listTag = myPanel.Tag,
+                        listAlignment = myPanel.HorizontalAlignment
+                        
+                    };
+
+                    if (txtBox.Text != null)
+                    {
+                        dataJson.AddNewData(panelIndex, newListCard);
+                    }
                 }
             });
             }, token);
@@ -154,7 +173,7 @@ public partial class MainWindow : Window
     {
         var dataJson = new InfraSaves();
 
-        dataJson.LoadData(TextoLista);
+        dataJson.LoadData();
     }
 #endregion
 }
