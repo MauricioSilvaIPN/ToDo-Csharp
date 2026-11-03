@@ -3,6 +3,7 @@ using System.IO;
 using System.Text;
 using System.Text.Json;
 using Avalonia.Controls;
+using Avalonia.Media;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
@@ -13,11 +14,8 @@ public struct listCard
 {
     public string listText { get; set; }
     public int rowIndex { get; set; }
-    public string listName { get; set; }
-    public object listTag { get; set; }
-    public Avalonia.Layout.Orientation listOrientation { get; set; }
-    public Avalonia.Layout.HorizontalAlignment listAlignment { get; set; }
-    public Avalonia.Thickness listMargin { get; set; }
+    public int panelID { get; set; }
+    public object contentCheckBtn { get; set; }
 }
 
 
@@ -64,7 +62,7 @@ public class InfraSaves
     }
 
 
-    public void LoadData(Grid containerRef)
+    public void LoadData(Grid containerRef, StreamGeometry trashIconRef, int panelIdRef, int rowIndexRef)
     {
         if (File.Exists(savePath))
         {
@@ -77,11 +75,15 @@ public class InfraSaves
                 {
                     var stackPanel = new StackPanel()
                     {
-                        Orientation = loadCardDict[i].listOrientation,
-                        HorizontalAlignment = loadCardDict[i].listAlignment,
-                        Margin = loadCardDict[i].listMargin,
-                        Name = loadCardDict[i].listName,
-                        Tag = loadCardDict[i].listTag
+                        Orientation = Avalonia.Layout.Orientation.Horizontal,
+                        HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center,
+                        Margin = new Avalonia.Thickness(0, 15, 0, 0),
+                        Name = "Listas",
+                    };
+
+                    var trashI = new PathIcon
+                    {
+                        Data = trashIconRef
                     };
 
                     var textInput = new TextBox
@@ -91,6 +93,22 @@ public class InfraSaves
                         Name = "TextoLista"
                     };
 
+                    /*var checkBtn = new Button
+                    {
+                        Margin = new Avalonia.Thickness(125, 0, 10, 0),
+                        Background = Brushes.Transparent,
+                        Content = loadCardDict[i].contentCheckBtn
+                    };*/
+
+                                
+                    var trashBtn = new Button
+                    {
+                        Margin = new Avalonia.Thickness(10, 0, 125, 0),
+                        Background = Brushes.Transparent,
+                        Content = trashI
+                    };
+
+
                     //textInput.TextChanged += OnTextTyped;
 
                     containerRef.RowDefinitions.Add(new RowDefinition(GridLength.Auto));
@@ -98,7 +116,10 @@ public class InfraSaves
                     Grid.SetRow(stackPanel, loadCardDict[i].rowIndex);
 
                     containerRef.Children.Add(stackPanel);
+                    
                     stackPanel.Children.Add(textInput);
+                    stackPanel.Children.Add(trashBtn);
+                    //stackPanel.Children.Add(checkBtn);
                 }
             }
             else

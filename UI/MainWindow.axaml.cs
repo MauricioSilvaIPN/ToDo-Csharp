@@ -12,8 +12,8 @@ public partial class MainWindow : Window
 {
 
     private CancellationTokenSource? _cts;
-    private int rowIndex = 1;
-    private int panelIndex = 0;
+    private int rowIndex = 0;
+    private int panelIndex = -1;
     
     private StreamGeometry checkIcon = StreamGeometry.Parse("M17 5H7c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2M7 17V7h10v10z");
     private StreamGeometry trashIcon = StreamGeometry.Parse("M17 6V4c0-1.1-.9-2-2-2H9c-1.1 0-2 .9-2 2v2H2v2h2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8h2V6zM9 4h6v2H9zM6 20V8h12v12z");
@@ -46,7 +46,6 @@ public partial class MainWindow : Window
             HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center,
             Margin = new Avalonia.Thickness(0, 15, 0, 0),
             Name = "Listas",
-            Tag = panelIndex
         };
 
         var checkBtn = new Button
@@ -147,21 +146,14 @@ public partial class MainWindow : Window
                     var newListCard = new listCard
                     {
                         listText = txtBox.Text,
-                        listName = myPanel.Name,
-                        //checkIcon = stackParent.;
-                        //trashIcon;
-                        //checkVerifyIcoN;
-                        listOrientation = myPanel.Orientation,
-                        listMargin = myPanel.Margin,
                         rowIndex = rowIndex,
-                        listTag = myPanel.Tag,
-                        listAlignment = myPanel.HorizontalAlignment
-                        
+                        panelID = panelIndex
                     };
 
                     if (txtBox.Text != null)
                     {
                         dataJson.AddNewData(panelIndex, newListCard);
+                        Console.WriteLine(panelIndex);
                     }
                 }
             });
@@ -172,9 +164,11 @@ public partial class MainWindow : Window
     public void ShowData()
     {
         var dataJson = new InfraSaves();
-        //var dictRef = dataJson.loadCardDict;
 
-        dataJson.LoadData(ContainerListas);
+        dataJson.LoadData(ContainerListas, trashIcon, panelIndex, rowIndex);
+
+        Console.WriteLine(panelIndex);
+        Console.WriteLine(rowIndex);
     }
 #endregion
 }
