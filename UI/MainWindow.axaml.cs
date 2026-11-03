@@ -172,8 +172,9 @@ public partial class MainWindow : Window
     public void ShowData()
     {
         var dataJson = new InfraSaves();
+        //var dictRef = dataJson.loadCardDict;
 
-        dataJson.LoadData();
+        dataJson.LoadData(ContainerListas);
     }
 #endregion
 }

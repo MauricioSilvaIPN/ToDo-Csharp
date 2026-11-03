@@ -3,7 +3,6 @@ using System.IO;
 using System.Text;
 using System.Text.Json;
 using Avalonia.Controls;
-using Avalonia.Media;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
@@ -26,6 +25,7 @@ public struct listCard
 public class InfraSaves
 {
     private Dictionary<int, listCard>? listCardDict;
+    public Dictionary<int, listCard>? loadCardDict;
     string savePath = "SaveFile.json";
 
     public void AddNewData(int index, listCard listAllContent)
@@ -64,27 +64,48 @@ public class InfraSaves
     }
 
 
-    public void LoadData()
+    public void LoadData(Grid containerRef)
     {
         if (File.Exists(savePath))
         {
             var fileContent = File.ReadAllText(savePath, Encoding.UTF8);
-            var dictContent = JsonSerializer.Deserialize<Dictionary<int, listCard>>(fileContent);
-
-            foreach(var value in dictContent)
+            loadCardDict = JsonSerializer.Deserialize<Dictionary<int, listCard>>(fileContent);
+                    
+            if (loadCardDict != null)
             {
-                Console.WriteLine(value);    
+                for (int i = 0; i < loadCardDict.Count; i++)
+                {
+                    var stackPanel = new StackPanel()
+                    {
+                        Orientation = loadCardDict[i].listOrientation,
+                        HorizontalAlignment = loadCardDict[i].listAlignment,
+                        Margin = loadCardDict[i].listMargin,
+                        Name = loadCardDict[i].listName,
+                        Tag = loadCardDict[i].listTag
+                    };
+
+                    var textInput = new TextBox
+                    {
+                        Text = loadCardDict[i].listText,
+                        Width = 450,
+                        Name = "TextoLista"
+                    };
+
+                    //textInput.TextChanged += OnTextTyped;
+
+                    containerRef.RowDefinitions.Add(new RowDefinition(GridLength.Auto));
+
+                    Grid.SetRow(stackPanel, loadCardDict[i].rowIndex);
+
+                    containerRef.Children.Add(stackPanel);
+                    stackPanel.Children.Add(textInput);
+                }
             }
-            
-
-
-
-            
-        }
-        else
-        {
-            Console.WriteLine("ERRO: ARQUIVO NÃO ENCONTRADO");
-            return;
+            else
+            {
+                Console.WriteLine("ERRO: ARQUIVO NÃO ENCONTRADO");
+                return;
+            }
         }
     }
 }
