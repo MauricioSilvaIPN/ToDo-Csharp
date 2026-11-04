@@ -5,6 +5,7 @@ using Avalonia.Interactivity;
 using Avalonia.Media;
 using System.Threading;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace ToDo_csharp;
 
@@ -14,10 +15,12 @@ public partial class MainWindow : Window
     private CancellationTokenSource? _cts;
     private int rowIndex = 0;
     private int panelIndex = -1;
-    
-    private StreamGeometry checkIcon = StreamGeometry.Parse("M17 5H7c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2M7 17V7h10v10z");
+    private string? checkBtnStatus;
+    private string checkEIconPath = "M17 5H7c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2M7 17V7h10v10z";
+    private string checkVIconPath = "m11 12.59-1.29-1.3-1.42 1.42 2.71 2.7 4.71-4.7-1.42-1.42z";
+    private StreamGeometry checkIcon;// = StreamGeometry.Parse(checkboxIconPath);
     private StreamGeometry trashIcon = StreamGeometry.Parse("M17 6V4c0-1.1-.9-2-2-2H9c-1.1 0-2 .9-2 2v2H2v2h2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8h2V6zM9 4h6v2H9zM6 20V8h12v12z");
-    private StreamGeometry checkVerifyIcon = StreamGeometry.Parse("m11 12.59-1.29-1.3-1.42 1.42 2.71 2.7 4.71-4.7-1.42-1.42z");
+    private StreamGeometry checkVerifyIcon; // = StreamGeometry.Parse(");
 
     public MainWindow()
     {
@@ -29,6 +32,8 @@ public partial class MainWindow : Window
     public void CreatingNewList(object sender, RoutedEventArgs args)
     {    
         panelIndex++;
+        checkIcon = StreamGeometry.Parse(checkEIconPath);
+        checkVerifyIcon = StreamGeometry.Parse(checkVIconPath);
 
         var checkI = new PathIcon
         {
@@ -69,6 +74,8 @@ public partial class MainWindow : Window
             Content = trashI
         };
 
+        checkBtnStatus = checkEIconPath;
+
         checkBtn.Click += TaskCompleted;
         trashBtn.Click += DeleteTask;
 
@@ -97,12 +104,14 @@ public partial class MainWindow : Window
             {
                 if (icon.Data == checkIcon)
                 {
-                    icon.Data = checkVerifyIcon;       
+                    icon.Data = checkVerifyIcon;
+                    checkBtnStatus = checkVIconPath;
                 }
 
                 else
                 {
                     icon.Data = checkIcon;
+                    checkBtnStatus = checkEIconPath;
                 }
             }
         }
@@ -147,14 +156,12 @@ public partial class MainWindow : Window
                     {
                         listText = txtBox.Text,
                         rowIndex = rowIndex,
-                        panelID = panelIndex
+                        panelID = panelIndex,
+                        contentCheckIcon = checkBtnStatus
                     };
 
-                    if (txtBox.Text != null)
-                    {
-                        dataJson.AddNewData(panelIndex, newListCard);
-                        Console.WriteLine(panelIndex);
-                    }
+                    dataJson.AddNewData(panelIndex, newListCard);
+                    Console.WriteLine(panelIndex);
                 }
             });
             }, token);
@@ -167,8 +174,8 @@ public partial class MainWindow : Window
 
         dataJson.LoadData(ContainerListas, trashIcon, panelIndex, rowIndex);
 
-        Console.WriteLine(panelIndex);
-        Console.WriteLine(rowIndex);
+        //Console.WriteLine(panelIndex);
+        //Console.WriteLine(rowIndex);
     }
 #endregion
 }

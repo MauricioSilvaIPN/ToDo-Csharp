@@ -15,7 +15,7 @@ public struct listCard
     public string listText { get; set; }
     public int rowIndex { get; set; }
     public int panelID { get; set; }
-    public object contentCheckBtn { get; set; }
+    public string contentCheckIcon { get; set; }
 }
 
 
@@ -73,12 +73,19 @@ public class InfraSaves
             {
                 for (int i = 0; i < loadCardDict.Count; i++)
                 {
+                    StreamGeometry iconCheck = StreamGeometry.Parse(loadCardDict[i].contentCheckIcon);
+
                     var stackPanel = new StackPanel()
                     {
                         Orientation = Avalonia.Layout.Orientation.Horizontal,
                         HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center,
                         Margin = new Avalonia.Thickness(0, 15, 0, 0),
                         Name = "Listas",
+                    };
+
+                    var checkI = new PathIcon
+                    {
+                        Data = iconCheck
                     };
 
                     var trashI = new PathIcon
@@ -93,12 +100,12 @@ public class InfraSaves
                         Name = "TextoLista"
                     };
 
-                    /*var checkBtn = new Button
+                    var checkBtn = new Button
                     {
                         Margin = new Avalonia.Thickness(125, 0, 10, 0),
                         Background = Brushes.Transparent,
-                        Content = loadCardDict[i].contentCheckBtn
-                    };*/
+                        Content = checkI
+                    };
 
                                 
                     var trashBtn = new Button
@@ -117,9 +124,9 @@ public class InfraSaves
 
                     containerRef.Children.Add(stackPanel);
                     
+                    stackPanel.Children.Add(checkBtn);
                     stackPanel.Children.Add(textInput);
                     stackPanel.Children.Add(trashBtn);
-                    //stackPanel.Children.Add(checkBtn);
                 }
             }
             else
