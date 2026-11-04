@@ -18,9 +18,9 @@ public partial class MainWindow : Window
     private string? checkBtnStatus;
     private string checkEIconPath = "M17 5H7c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2M7 17V7h10v10z";
     private string checkVIconPath = "m11 12.59-1.29-1.3-1.42 1.42 2.71 2.7 4.71-4.7-1.42-1.42z";
-    private StreamGeometry checkIcon;// = StreamGeometry.Parse(checkboxIconPath);
+    private StreamGeometry? checkIcon;
     private StreamGeometry trashIcon = StreamGeometry.Parse("M17 6V4c0-1.1-.9-2-2-2H9c-1.1 0-2 .9-2 2v2H2v2h2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8h2V6zM9 4h6v2H9zM6 20V8h12v12z");
-    private StreamGeometry checkVerifyIcon; // = StreamGeometry.Parse(");
+    private StreamGeometry? checkVerifyIcon;
 
     public MainWindow()
     {
@@ -28,7 +28,7 @@ public partial class MainWindow : Window
         ShowData();
     }
 
-#region CREATING BUTTONS
+#region CREATING ELEMENTS
     public void CreatingNewList(object sender, RoutedEventArgs args)
     {    
         panelIndex++;
