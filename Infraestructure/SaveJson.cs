@@ -5,7 +5,7 @@ using System.Text.Json;
 using Avalonia.Controls;
 using Avalonia.Media;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
+using ToDo_csharp;
 
 namespace Infraestructure.SaveJson;
 
@@ -62,7 +62,7 @@ public class InfraSaves
     }
 
 
-    public void LoadData(Grid containerRef, StreamGeometry trashIconRef, int panelIdRef, int rowIndexRef)
+    public void LoadData(Grid containerRef, StreamGeometry trashIconRef)
     {
         if (File.Exists(savePath))
         {
@@ -115,8 +115,10 @@ public class InfraSaves
                         Content = trashI
                     };
 
+                    //checkBtn.Click += toDoRef.TaskCompleted;
+                    //trashBtn.Click += toDoRef.DeleteTask;
 
-                    //textInput.TextChanged += OnTextTyped;
+                    //textInput.TextChanged += toDoRef.OnTextTyped;
 
                     containerRef.RowDefinitions.Add(new RowDefinition(GridLength.Auto));
 
@@ -133,6 +135,18 @@ public class InfraSaves
             {
                 Console.WriteLine("ERRO: ARQUIVO NÃO ENCONTRADO");
                 return;
+            }
+        }
+    }
+    
+    public void InitializeData(ref int rowIndexRef, ref int panelIndexRef)
+    {
+        if (File.Exists(savePath))
+        {
+            if (loadCardDict != null)
+            {
+                rowIndexRef = loadCardDict.Count;
+                panelIndexRef = loadCardDict.Count -1;   
             }
         }
     }

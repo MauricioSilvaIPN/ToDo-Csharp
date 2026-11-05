@@ -13,19 +13,27 @@ public partial class MainWindow : Window
 {
 
     private CancellationTokenSource? _cts;
+
     private int rowIndex = 0;
     private int panelIndex = -1;
     private string? checkBtnStatus;
+
     private string checkEIconPath = "M17 5H7c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2M7 17V7h10v10z";
     private string checkVIconPath = "m11 12.59-1.29-1.3-1.42 1.42 2.71 2.7 4.71-4.7-1.42-1.42z";
     private StreamGeometry? checkIcon;
     private StreamGeometry trashIcon = StreamGeometry.Parse("M17 6V4c0-1.1-.9-2-2-2H9c-1.1 0-2 .9-2 2v2H2v2h2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8h2V6zM9 4h6v2H9zM6 20V8h12v12z");
     private StreamGeometry? checkVerifyIcon;
 
+    InfraSaves dataJson = new InfraSaves();
+    listCard newListCard = new listCard();
+
+
     public MainWindow()
     {
         InitializeComponent();
-        ShowData();
+
+        dataJson.LoadData(ContainerListas, trashIcon);
+        dataJson.InitializeData(ref rowIndex, ref panelIndex);
     }
 
 #region CREATING ELEMENTS
@@ -113,6 +121,14 @@ public partial class MainWindow : Window
                     icon.Data = checkIcon;
                     checkBtnStatus = checkEIconPath;
                 }
+
+                /*var dataJson = new InfraSaves();
+                var newListCard = new listCard
+                {
+                    contentCheckIcon = checkBtnStatus
+                };
+
+                dataJson.AddNewData(panelIndex, newListCard);*/
             }
         }
     }
@@ -147,12 +163,11 @@ public partial class MainWindow : Window
 
             Avalonia.Threading.Dispatcher.UIThread.Post(() =>
             {
-                var dataJson = new InfraSaves();
                 var stackParent = txtBox.Parent;
 
                 if (stackParent is StackPanel myPanel)
                 {
-                    var newListCard = new listCard
+                    newListCard = new listCard
                     {
                         listText = txtBox.Text,
                         rowIndex = rowIndex,
@@ -161,21 +176,10 @@ public partial class MainWindow : Window
                     };
 
                     dataJson.AddNewData(panelIndex, newListCard);
-                    Console.WriteLine(panelIndex);
                 }
             });
             }, token);
         }
-    }
-
-    public void ShowData()
-    {
-        var dataJson = new InfraSaves();
-
-        dataJson.LoadData(ContainerListas, trashIcon, panelIndex, rowIndex);
-
-        //Console.WriteLine(panelIndex);
-        //Console.WriteLine(rowIndex);
     }
 #endregion
 }
