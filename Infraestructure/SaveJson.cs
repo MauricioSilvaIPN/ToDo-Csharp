@@ -145,7 +145,7 @@ public class InfraSaves
         {
             if (loadCardDict != null)
             {
-                rowIndexRef = loadCardDict.Count;
+                rowIndexRef = loadCardDict.Count + 1;
                 panelIndexRef = loadCardDict.Count -1;   
             }
         }
