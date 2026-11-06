@@ -59,7 +59,7 @@ public class InfraSaves
         string jsonString = JsonSerializer.Serialize(listCardDict);
 
         File.WriteAllText(savePath, jsonString, Encoding.UTF8);
-        Console.WriteLine(File.ReadAllText(savePath, Encoding.UTF8));
+        //Console.WriteLine(File.ReadAllText(savePath, Encoding.UTF8));
     }
 #endregion
 
