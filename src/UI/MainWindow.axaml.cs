@@ -57,6 +57,7 @@ public partial class MainWindow : Window
             HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center,
             Margin = new Avalonia.Thickness(0, 15, 0, 0),
             Name = "Listas",
+            Tag = panelIndex
         };
 
         var checkBtn = new Button
@@ -134,7 +135,12 @@ public partial class MainWindow : Window
 
             if (parentRef is StackPanel panelRef)
             {
+                dataJson.DeleteCurrentData(panelRef.Tag);
                 ContainerListas.Children.Remove(panelRef);
+                
+                
+                rowIndex--;
+                panelIndex--;
             }
         }
     }

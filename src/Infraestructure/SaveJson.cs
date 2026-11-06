@@ -89,6 +89,7 @@ public class InfraSaves
                         HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center,
                         Margin = new Avalonia.Thickness(0, 15, 0, 0),
                         Name = "Listas",
+                        Tag = loadCardDict[i].panelID
                     };
 
                     var checkI = new PathIcon
@@ -155,6 +156,31 @@ public class InfraSaves
             {
                 rowIndexRef = loadCardDict.Count + 1;
                 panelIndexRef = loadCardDict.Count -1;   
+            }
+        }
+        else
+        {
+            return;   
+        }        
+    }
+#endregion
+
+#region DELETE DATA
+    public void DeleteCurrentData(object panelTag)
+    {
+        if (listCardDict != null && File.Exists(savePath))
+        {
+            for (int i = 0; i < listCardDict.Count; i++)
+            {
+                bool isObjectEquals = object.Equals(listCardDict[i].panelID, panelTag);
+
+                if (isObjectEquals)
+                {                    
+                    listCardDict.Remove(i);
+                    
+                    string jsonString = JsonSerializer.Serialize(listCardDict);
+                    File.WriteAllText(savePath, jsonString, Encoding.UTF8);
+                }
             }
         }
     }
