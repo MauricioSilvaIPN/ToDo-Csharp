@@ -5,7 +5,7 @@ using System.Text.Json;
 using Avalonia.Controls;
 using Avalonia.Media;
 using System.Collections.Generic;
-using ToDo_csharp;
+using Avalonia.Interactivity;
 
 namespace Infraestructure.SaveJson;
 
@@ -26,6 +26,7 @@ public class InfraSaves
     public Dictionary<int, listCard>? loadCardDict;
     string savePath = "SaveFile.json";
 
+#region SAVE DATA
     public void AddNewData(int index, listCard listAllContent)
     {
         if (listCardDict == null)
@@ -60,9 +61,16 @@ public class InfraSaves
         File.WriteAllText(savePath, jsonString, Encoding.UTF8);
         Console.WriteLine(File.ReadAllText(savePath, Encoding.UTF8));
     }
+#endregion
 
-
-    public void LoadData(Grid containerRef, StreamGeometry trashIconRef)
+#region LOAD DATA
+    public void LoadData(
+        Grid containerRef,
+        StreamGeometry trashIconRef,
+        EventHandler<RoutedEventArgs> onCheckClicked,
+        EventHandler<RoutedEventArgs> onTrashClicked,
+        EventHandler<TextChangedEventArgs> onTextChanged
+        )
     {
         if (File.Exists(savePath))
         {
@@ -115,10 +123,10 @@ public class InfraSaves
                         Content = trashI
                     };
 
-                    //checkBtn.Click += toDoRef.TaskCompleted;
-                    //trashBtn.Click += toDoRef.DeleteTask;
+                    checkBtn.Click += onCheckClicked;
+                    trashBtn.Click += onTrashClicked;
 
-                    //textInput.TextChanged += toDoRef.OnTextTyped;
+                    textInput.TextChanged += onTextChanged;
 
                     containerRef.RowDefinitions.Add(new RowDefinition(GridLength.Auto));
 
@@ -150,4 +158,5 @@ public class InfraSaves
             }
         }
     }
+#endregion
 }

@@ -11,7 +11,6 @@ namespace ToDo_csharp;
 
 public partial class MainWindow : Window
 {
-
     private CancellationTokenSource? _cts;
 
     private int rowIndex = 0;
@@ -32,14 +31,13 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
 
-        dataJson.LoadData(ContainerListas, trashIcon);
+        dataJson.LoadData(ContainerListas, trashIcon, TaskCompleted, DeleteTask, OnTextTyped);
         dataJson.InitializeData(ref rowIndex, ref panelIndex);
     }
 
 #region CREATING ELEMENTS
     public void CreatingNewList(object sender, RoutedEventArgs args)
     {    
-        panelIndex++;
         checkIcon = StreamGeometry.Parse(checkEIconPath);
         checkVerifyIcon = StreamGeometry.Parse(checkVIconPath);
 
@@ -93,13 +91,15 @@ public partial class MainWindow : Window
         ContainerListas.RowDefinitions.Add(new RowDefinition(GridLength.Auto));
 
         Grid.SetRow(newPanel, rowIndex);
-        rowIndex++;
 
         ContainerListas.Children.Add(newPanel);
 
         newPanel.Children.Add(checkBtn);
         newPanel.Children.Add(textInput);
         newPanel.Children.Add(trashBtn);
+
+        rowIndex++;
+        panelIndex++;
     }
 #endregion
 
@@ -122,13 +122,7 @@ public partial class MainWindow : Window
                     checkBtnStatus = checkEIconPath;
                 }
 
-                /*var dataJson = new InfraSaves();
-                var newListCard = new listCard
-                {
-                    contentCheckIcon = checkBtnStatus
-                };
-
-                dataJson.AddNewData(panelIndex, newListCard);*/
+                newListCard.contentCheckIcon = checkBtnStatus;
             }
         }
     }
@@ -143,7 +137,6 @@ public partial class MainWindow : Window
             {
                 ContainerListas.Children.Remove(panelRef);
             }
-            
         }
     }
 #endregion
