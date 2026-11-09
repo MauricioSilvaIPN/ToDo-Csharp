@@ -170,18 +170,19 @@ public class InfraSaves
     {
         if (listCardDict != null && File.Exists(savePath))
         {
-            for (int i = 0; i < listCardDict.Count; i++)
+            for (int i = listCardDict.Count - 1; i >= 0; i--)
             {
+                Console.WriteLine(listCardDict.Count - 1);
                 bool isObjectEquals = object.Equals(listCardDict[i].panelID, panelTag);
 
                 if (isObjectEquals)
                 {                    
                     listCardDict.Remove(i);
-                    
-                    string jsonString = JsonSerializer.Serialize(listCardDict);
-                    File.WriteAllText(savePath, jsonString, Encoding.UTF8);
                 }
             }
+
+            string jsonString = JsonSerializer.Serialize(listCardDict);
+            File.WriteAllText(savePath, jsonString, Encoding.UTF8);
         }
     }
 #endregion

@@ -13,7 +13,7 @@ public partial class MainWindow : Window
 {
     private CancellationTokenSource? _cts;
 
-    private int rowIndex = 0;
+    private int rowIndex = -1;
     private int panelIndex = -1;
     private string? checkBtnStatus;
 
@@ -41,6 +41,9 @@ public partial class MainWindow : Window
 #region CREATING ELEMENTS
     public void CreatingNewList(object sender, RoutedEventArgs args)
     {    
+        rowIndex++;
+        panelIndex++;
+
         var checkI = new PathIcon
         {
             Data = checkIcon
@@ -99,8 +102,7 @@ public partial class MainWindow : Window
         newPanel.Children.Add(textInput);
         newPanel.Children.Add(trashBtn);
 
-        rowIndex++;
-        panelIndex++;
+        SaveData(textInput);
     }
 #endregion
 
@@ -165,19 +167,25 @@ public partial class MainWindow : Window
 
                 if (stackParent is StackPanel myPanel)
                 {
-                    newListCard = new listCard
-                    {
-                        listText = txtBox.Text,
-                        rowIndex = rowIndex,
-                        panelID = panelIndex,
-                        contentCheckIcon = checkBtnStatus
-                    };
-
-                    dataJson.AddNewData(panelIndex, newListCard);
+                    SaveData(txtBox);
                 }
             });
             }, token);
         }
+    }
+
+
+    private void SaveData(TextBox txtBox)
+    {
+        newListCard = new listCard
+        {
+            listText = txtBox.Text,
+            rowIndex = rowIndex,
+            panelID = panelIndex,
+            contentCheckIcon = checkBtnStatus
+        };
+
+        dataJson.AddNewData(panelIndex, newListCard);
     }
 #endregion
 }
