@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Infraestructure.SaveJson;
 using Avalonia.Interactivity;
 using Avalonia.Media;
+using Avalonia.VisualTree;
 using System.Threading;
 using System.Threading.Tasks;
 using System.IO;
@@ -137,10 +138,9 @@ public partial class MainWindow : Window
 
             if (parentRef is StackPanel panelRef)
             {
-                dataJson.DeleteCurrentData(panelRef.Tag);
+                dataJson.DeleteCurrentData(panelRef.Tag, newListCard);
                 ContainerListas.Children.Remove(panelRef);
-                
-                
+
                 rowIndex--;
                 panelIndex--;
             }
