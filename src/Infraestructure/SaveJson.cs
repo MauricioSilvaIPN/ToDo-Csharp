@@ -168,32 +168,39 @@ public class InfraSaves
 #region DELETE DATA
     public void DeleteCurrentData(object panelTag, listCard listAllContent)
     {
+        Dictionary<int, listCard> newIdsDict = new Dictionary<int, listCard>();
+        List<int> idsDelete = new List<int>();
+
+
         if (listCardDict != null && File.Exists(savePath))
-        {            
+        {     
+
             for (int i = 0; i < listCardDict.Count; i++)
             {
                 bool isObjectEquals = object.Equals(listCardDict[i].panelID, panelTag);
+                int newId = listCardDict[i].panelID - 1;
+
+                //newIdsDict.Add(newId, listCardDict[i]);
 
                 if (isObjectEquals)
-                {                    
-                    listCardDict.Remove(i);
+                {   
+                    idsDelete.Add(i);
                 }
             }
 
-            if (!listCardDict.ContainsKey(0))
+            foreach(var value in idsDelete)
             {
-                foreach (var key in listCardDict)
-                {
-                    int newPanelId = key.Value.panelID - 1;
-                    listCardDict = new Dictionary<int, listCard>();
-                    
-                    listCardDict.Add(newPanelId, listAllContent);
-                    
-                }
+                listCardDict.Remove(value);
+                Console.WriteLine(value);
             }
 
-            string jsonString = JsonSerializer.Serialize(listCardDict);
-            File.WriteAllText(savePath, jsonString, Encoding.UTF8);
+            foreach(var value in listCardDict)
+            {
+                Console.WriteLine(value);
+            }
+
+            /*string jsonString = JsonSerializer.Serialize(listCardDict);
+            File.WriteAllText(savePath, jsonString, Encoding.UTF8);*/
         }
     }
 #endregion
