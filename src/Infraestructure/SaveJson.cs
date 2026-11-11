@@ -178,9 +178,6 @@ public class InfraSaves
             for (int i = 0; i < listCardDict.Count; i++)
             {
                 bool isObjectEquals = object.Equals(listCardDict[i].panelID, panelTag);
-                int newId = listCardDict[i].panelID - 1;
-
-                //newIdsDict.Add(newId, listCardDict[i]);
 
                 if (isObjectEquals)
                 {   
@@ -188,19 +185,27 @@ public class InfraSaves
                 }
             }
 
-            foreach(var value in idsDelete)
+            foreach (var value in idsDelete)
             {
-                listCardDict.Remove(value);
-                Console.WriteLine(value);
+                listCardDict.Remove(value);                
             }
 
-            foreach(var value in listCardDict)
+            foreach (var value in listCardDict)
             {
-                Console.WriteLine(value);
+                int valueId = value.Key - 1;
+
+                if (valueId < 0)
+                {
+                    valueId = 0;
+                }
+
+                newIdsDict.Add(valueId, value.Value);
             }
 
-            /*string jsonString = JsonSerializer.Serialize(listCardDict);
-            File.WriteAllText(savePath, jsonString, Encoding.UTF8);*/
+            listCardDict = newIdsDict;
+
+            string jsonString = JsonSerializer.Serialize(listCardDict);
+            File.WriteAllText(savePath, jsonString, Encoding.UTF8);
         }
     }
 #endregion
