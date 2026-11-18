@@ -154,7 +154,7 @@ public class InfraSaves
         {
             if (loadCardDict != null)
             {
-                rowIndexRef = loadCardDict.Count;
+                rowIndexRef = loadCardDict.Count -1;
                 panelIndexRef = loadCardDict.Count -1;   
             }
         }
@@ -166,11 +166,12 @@ public class InfraSaves
 #endregion
 
 #region DELETE DATA
-    public void DeleteCurrentData(object panelTag, listCard listAllContent)
+    public void DeleteCurrentData(object panelTag)
     {
         Dictionary<int, listCard> newIdsDict = new Dictionary<int, listCard>();
         List<int> idsDelete = new List<int>();
 
+        int valueId = 0;
 
         if (listCardDict != null && File.Exists(savePath))
         {     
@@ -182,6 +183,7 @@ public class InfraSaves
                 if (isObjectEquals)
                 {   
                     idsDelete.Add(i);
+                    
                 }
             }
 
@@ -192,14 +194,18 @@ public class InfraSaves
 
             foreach (var value in listCardDict)
             {
-                int valueId = value.Key - 1;
+                panelTag = valueId;
 
-                if (valueId < 0)
+                listCard newListCard = new listCard
                 {
-                    valueId = 0;
-                }
+                    listText = value.Value.listText,
+                    rowIndex = valueId,
+                    panelID = valueId,
+                    contentCheckIcon = value.Value.contentCheckIcon
+                };
 
-                newIdsDict.Add(valueId, value.Value);
+                newIdsDict.Add(valueId, newListCard);
+                valueId++;
             }
 
             listCardDict = newIdsDict;

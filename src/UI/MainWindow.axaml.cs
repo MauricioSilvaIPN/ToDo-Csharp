@@ -138,7 +138,7 @@ public partial class MainWindow : Window
 
             if (parentRef is StackPanel panelRef)
             {
-                dataJson.DeleteCurrentData(panelRef.Tag, newListCard);
+                dataJson.DeleteCurrentData(panelRef.Tag);
                 ContainerListas.Children.Remove(panelRef);
 
                 rowIndex--;
