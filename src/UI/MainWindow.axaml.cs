@@ -153,6 +153,8 @@ public partial class MainWindow : Window
     {
         if (sender is TextBox txtBox)
         {
+            var stackParent = txtBox.Parent;
+
             _cts?.Cancel();
             _cts = new CancellationTokenSource();
             var token = _cts.Token;
@@ -167,6 +169,7 @@ public partial class MainWindow : Window
 
                 if (stackParent is StackPanel myPanel)
                 {
+                    dataJson.UpdateCurrentText(myPanel.Tag, myPanel);
                     SaveData(txtBox);
                 }
             });

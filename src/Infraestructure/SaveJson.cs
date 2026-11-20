@@ -6,6 +6,7 @@ using Avalonia.Controls;
 using Avalonia.Media;
 using System.Collections.Generic;
 using Avalonia.Interactivity;
+using System.Linq;
 
 namespace Infraestructure.SaveJson;
 
@@ -213,6 +214,26 @@ public class InfraSaves
             string jsonString = JsonSerializer.Serialize(listCardDict);
             File.WriteAllText(savePath, jsonString, Encoding.UTF8);
         }
+    }
+#endregion
+#region UPDATE DATA
+    public void UpdateCurrentText(object panelTag, StackPanel panelRef)
+    {
+        if (listCardDict != null && File.Exists(savePath))
+        {
+            for (int i = 0; i < listCardDict.Count; i++)
+            {
+                bool isObjectEquals = object.Equals(listCardDict[i].panelID, panelTag);
+
+                if (isObjectEquals)
+                {
+                    TextBox newTxtRef = panelRef.Children.OfType<TextBox>().FirstOrDefault();
+                    Console.WriteLine(newTxtRef);
+                    Console.WriteLine(panelTag);
+                }
+            }
+        }
+
     }
 #endregion
 }
