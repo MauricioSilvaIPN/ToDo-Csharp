@@ -219,21 +219,41 @@ public class InfraSaves
 #region UPDATE DATA
     public void UpdateCurrentText(object panelTag, StackPanel panelRef)
     {
+        Dictionary<int, listCard> newTextDict = new Dictionary<int, listCard>();
+
         if (listCardDict != null && File.Exists(savePath))
         {
+            TextBox? newTxtRef = null;
+
             for (int i = 0; i < listCardDict.Count; i++)
             {
                 bool isObjectEquals = object.Equals(listCardDict[i].panelID, panelTag);
 
                 if (isObjectEquals)
                 {
-                    TextBox newTxtRef = panelRef.Children.OfType<TextBox>().FirstOrDefault();
-                    Console.WriteLine(newTxtRef);
-                    Console.WriteLine(panelTag);
+                    newTxtRef = panelRef.Children.OfType<TextBox>().FirstOrDefault();
                 }
             }
-        }
 
+            /*foreach(var value in listCardDict)
+            {
+                var newListCard = new listCard
+                {
+                    listText = newTxtRef.Text,
+                    rowIndex = value.Value.rowIndex,
+                    panelID = value.Value.panelID,
+                    contentCheckIcon = value.Value.contentCheckIcon
+
+                };
+
+                newTextDict.Add(newListCard.panelID, newListCard);
+            }
+
+            listCardDict = newTextDict;
+
+            string jsonString = JsonSerializer.Serialize(listCardDict);
+            File.WriteAllText(savePath, jsonString, Encoding.UTF8);*/
+        }
     }
 #endregion
 }
