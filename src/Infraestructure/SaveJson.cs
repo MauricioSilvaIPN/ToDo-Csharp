@@ -139,6 +139,8 @@ public class InfraSaves
                     stackPanel.Children.Add(checkBtn);
                     stackPanel.Children.Add(textInput);
                     stackPanel.Children.Add(trashBtn);
+
+                    listCardDict = loadCardDict;
                 }
             }
             else
@@ -219,7 +221,7 @@ public class InfraSaves
 #region UPDATE DATA
     public void UpdateCurrentText(object panelTag, StackPanel panelRef)
     {
-        Dictionary<int, listCard> newTextDict = new Dictionary<int, listCard>();
+        int currentId = 0;
 
         if (listCardDict != null && File.Exists(savePath))
         {
@@ -232,27 +234,25 @@ public class InfraSaves
                 if (isObjectEquals)
                 {
                     newTxtRef = panelRef.Children.OfType<TextBox>().FirstOrDefault();
+                    currentId = listCardDict[i].panelID;
                 }
             }
 
-            /*foreach(var value in listCardDict)
+            if (listCardDict.ContainsKey(currentId))
             {
                 var newListCard = new listCard
                 {
                     listText = newTxtRef.Text,
-                    rowIndex = value.Value.rowIndex,
-                    panelID = value.Value.panelID,
-                    contentCheckIcon = value.Value.contentCheckIcon
-
+                    panelID = listCardDict[currentId].panelID,
+                    rowIndex = listCardDict[currentId].rowIndex,
+                    contentCheckIcon = listCardDict[currentId].contentCheckIcon
                 };
-
-                newTextDict.Add(newListCard.panelID, newListCard);
+               
+               listCardDict[currentId] = newListCard;
             }
 
-            listCardDict = newTextDict;
-
             string jsonString = JsonSerializer.Serialize(listCardDict);
-            File.WriteAllText(savePath, jsonString, Encoding.UTF8);*/
+            File.WriteAllText(savePath, jsonString, Encoding.UTF8);
         }
     }
 #endregion

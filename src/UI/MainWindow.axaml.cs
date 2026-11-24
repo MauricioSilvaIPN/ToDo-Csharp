@@ -170,7 +170,7 @@ public partial class MainWindow : Window
                 if (stackParent is StackPanel myPanel)
                 {
                     dataJson.UpdateCurrentText(myPanel.Tag, myPanel);
-                    SaveData(txtBox);
+                    //SaveData(txtBox);
                 }
             });
             }, token);
