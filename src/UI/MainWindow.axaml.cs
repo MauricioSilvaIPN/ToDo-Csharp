@@ -136,7 +136,7 @@ public partial class MainWindow : Window
         {
             var parentRef = btn.Parent;
 
-            if (parentRef is StackPanel panelRef)
+            if (parentRef is StackPanel panelRef && panelRef?.Tag is not null)
             {
                 dataJson.DeleteCurrentData(panelRef.Tag);
                 ContainerListas.Children.Remove(panelRef);
@@ -167,10 +167,9 @@ public partial class MainWindow : Window
             {
                 var stackParent = txtBox.Parent;
 
-                if (stackParent is StackPanel myPanel)
+                if (stackParent is StackPanel myPanel && myPanel?.Tag is not null)
                 {
                     dataJson.UpdateCurrentText(myPanel.Tag, myPanel);
-                    //SaveData(txtBox);
                 }
             });
             }, token);
@@ -182,10 +181,10 @@ public partial class MainWindow : Window
     {
         newListCard = new listCard
         {
-            listText = txtBox.Text,
+            listText = txtBox.Text ?? string.Empty,
             rowIndex = rowIndex,
             panelID = panelIndex,
-            contentCheckIcon = checkBtnStatus
+            contentCheckIcon = checkBtnStatus ?? string.Empty
         };
 
         dataJson.AddNewData(panelIndex, newListCard);

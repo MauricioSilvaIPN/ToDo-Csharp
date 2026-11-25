@@ -40,7 +40,7 @@ public class InfraSaves
             var fileContent = File.ReadAllText(savePath);
             var value = JsonSerializer.Deserialize<Dictionary<int, listCard>>(fileContent);
             
-            listCardDict = value;
+            listCardDict = value ?? new Dictionary<int, listCard>();
 
             if (listCardDict.ContainsKey(index))
             {
@@ -238,14 +238,16 @@ public class InfraSaves
                 }
             }
 
-            if (listCardDict.ContainsKey(currentId))
+            if (newTxtRef is not null && listCardDict.ContainsKey(currentId))
             {
+                var currentCard = listCardDict[currentId];
+
                 var newListCard = new listCard
                 {
-                    listText = newTxtRef.Text,
-                    panelID = listCardDict[currentId].panelID,
-                    rowIndex = listCardDict[currentId].rowIndex,
-                    contentCheckIcon = listCardDict[currentId].contentCheckIcon
+                    listText = newTxtRef.Text ?? string.Empty,
+                    panelID = currentCard.panelID,
+                    rowIndex = currentCard.rowIndex,
+                    contentCheckIcon = currentCard.contentCheckIcon ?? string.Empty
                 };
                
                listCardDict[currentId] = newListCard;
