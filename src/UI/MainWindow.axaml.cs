@@ -3,10 +3,8 @@ using Avalonia.Controls;
 using Infraestructure.SaveJson;
 using Avalonia.Interactivity;
 using Avalonia.Media;
-using Avalonia.VisualTree;
 using System.Threading;
 using System.Threading.Tasks;
-using System.IO;
 
 namespace ToDo_csharp;
 
@@ -112,6 +110,8 @@ public partial class MainWindow : Window
     {
         if (sender is Button check)
         {
+            var parentRef = check.Parent;
+
             if (check.Content is PathIcon icon)
             {
                 if (icon.Data == checkIcon)
@@ -124,8 +124,12 @@ public partial class MainWindow : Window
                 {
                     icon.Data = checkIcon;
                     checkBtnStatus = checkEIconPath;
-                }                
-                newListCard.contentCheckIcon = checkBtnStatus;
+                }
+
+                if (parentRef is StackPanel myPanel)
+                {                    
+                    dataJson.UpdateCurrentCheckButton(myPanel.Tag, myPanel, checkBtnStatus);   
+                }
             }
         }
     }

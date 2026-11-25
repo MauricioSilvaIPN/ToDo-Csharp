@@ -257,5 +257,42 @@ public class InfraSaves
             File.WriteAllText(savePath, jsonString, Encoding.UTF8);
         }
     }
+
+    public void UpdateCurrentCheckButton(object? panelTag, StackPanel panelRef, string buttonIconRef)
+    {
+        int currentId = 0;
+
+        if (listCardDict != null && File.Exists(savePath))
+        {
+
+            for (int i = 0; i < listCardDict.Count; i++)
+            {
+                bool isObjectEquals = object.Equals(listCardDict[i].panelID, panelTag);
+
+                if (isObjectEquals)
+                {
+                    currentId = listCardDict[i].panelID;
+                }
+            }
+
+            if (listCardDict.ContainsKey(currentId))
+            {
+                var currentCard = listCardDict[currentId];
+
+                var newListCard = new listCard
+                {
+                    listText = currentCard.listText ?? string.Empty,
+                    panelID = currentCard.panelID,
+                    rowIndex = currentCard.rowIndex,
+                    contentCheckIcon = buttonIconRef ?? string.Empty
+                };
+               
+               listCardDict[currentId] = newListCard;
+            }
+
+            string jsonString = JsonSerializer.Serialize(listCardDict);
+            File.WriteAllText(savePath, jsonString, Encoding.UTF8);
+        }
+    }
 #endregion
 }
